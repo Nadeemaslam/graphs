@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul id="active" class="nav navbar-nav side-nav">
                     <li class="selected"><a href="index.html"><i class="fa fa-bullseye"></i> Dashboard</a></li>
-                    <li><a href="portfolio.html"><i class="fa fa-tasks"></i> Portfolio</a></li>
+                    <li><a href="{% url 'audit'  %}"><i class="fa fa-tasks"></i> Charts</a></li>
                     <li><a href="blog.html"><i class="fa fa-globe"></i> Blog</a></li>
                     <li><a href="signup.html"><i class="fa fa-list-ol"></i> SignUp</a></li>
                     <li><a href="register.html"><i class="fa fa-font"></i> Register</a></li>
@@ -78,10 +78,8 @@
                     <h1>Dashboard <small>Statistics and more</small></h1>
                     <div class="alert alert-dismissable alert-warning">
                         <button data-dismiss="alert" class="close" type="button">&times;</button>
-                        Welcome to the admin dashboard! Feel free to review all pages and modify the layout to your needs. 
-                        <br />
-                        This theme uses the <a href="https://www.shieldui.com">ShieldUI</a> JavaScript library for the 
-                        additional data visualization and presentation functionality illustrated here.
+                        Welcome to the Super admin dashboard!  
+                        
                     </div>
                 </div>
             </div>
@@ -528,23 +526,19 @@ $(function () {
             type: 'spline'
         },
         title: {
-            text: 'Account Details per month'
+            text: 'Users registered  per day'
         },
         xAxis: {
             categories:{{pub_date|safe}}
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: 'Number of Users '
             }
         },
         series: [{
-            name: null,
+            name: "Users",
             data: {{per_day}}
-        },
-        {
-            name: null,
-            data: [10,8,88]
         }
         ]
     });
@@ -561,7 +555,7 @@ $(function () {
             type: 'pie'
         },
         title: {
-            text: 'Browser market sales January, 2015 to May, 2015'
+            text: 'Users registered, from July 2015 to Aug, 2015'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -580,9 +574,9 @@ $(function () {
             }
         },
         series: [{
-            name: "Brands",
+            name: "Users",
             colorByPoint: true,
-            data: [{{per_day}},]
+            data: {{entry_list|safe}}
         }]
     });
 });

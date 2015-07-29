@@ -47,6 +47,9 @@
 
                     {% if user.is_authenticated %}
                     <li><a href="#">Welcome |{{request.user.username}}  </a></li>
+                        {%if request.user.userprofile.user_type == 'S'%}
+                        <li><a href="{% url 'super_home'  %}">Dashboard</a></li>
+                        {%endif%}
                     <li><a href="{% url 'user_edit'  %}">Edit Profile</a></li>
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
                     {% else %}
@@ -82,11 +85,14 @@
                           {%if request.user.userprofile.user_type == 'C'%}
                           <li><a data-toggle="pill" href="#menu1">Column</a></li>
                           <li><a data-toggle="pill" href="#menu2">Area</a></li>
-                          {% else %}
-
+                          {% endif %}
+                          {%if request.user.userprofile.user_type == 'S'%}
                           <li><a data-toggle="pill" href="#menu3">Bar</a></li>
                           <li><a data-toggle="pill" href="#menu4">Line</a></li>
                           <li><a data-toggle="pill" href="#menu5">Pie</a></li>
+                          {%endif%}
+                         {%if request.user.userprofile.user_type == 'A'%}
+
                           <li><a data-toggle="pill" href="#menu6">Polar</a></li>
                           <li><a data-toggle="pill" href="#menu7">scatter</a></li>
                           <li><a data-toggle="pill" href="#menu8">Waterfall</a></li>
@@ -113,7 +119,6 @@
                 
                   <div id="home" class="tab-pane fade in active"> 
                     <div class="col-md-3"></div>
-                    {{ user }}
                     
 
                     <div class="col-md-6"id="container1" style="padding:10px 10px;margin:0 auto "></div>
@@ -245,14 +250,14 @@
             type: 'spline'
         },
         title: {
-            text: 'Account Details per month'
+            text: 'Sale Details per month'
         },
         xAxis: {
             categories: ['jan', 'feb', 'march','april','may']
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: 'Sale Per Month'
             }
         },
         series: [{
@@ -272,7 +277,7 @@
             type: 'bar'
         },
         title: {
-            text: 'Account Details per month'
+            text: 'Sale Details per month'
         },
         xAxis: {
             categories: ['jan', 'feb', 'march','april','may']
@@ -301,14 +306,14 @@
             type: 'column'
         },
         title: {
-            text: 'Account Details per month'
+            text: 'Sale Details per month'
         },
         xAxis: {
             categories: ['jan', 'feb', 'march','april','may']
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: 'Sale Per Month'
             }
         },
         series: [{
@@ -331,14 +336,14 @@ $(function () {
             type: 'area'
         },
         title: {
-            text: 'Account Details per month'
+            text: 'Sale Details per month'
         },
         xAxis: {
             categories: ['jan', 'feb', 'march','april','may']
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: 'Sale Per Month'
             }
         },
         series: [{
@@ -359,14 +364,14 @@ $(function () {
             type: 'line',
         },
         title: {
-            text: 'Account Details per month'
+            text: 'Sales Details per month'
         },
         xAxis: {
             categories: ['jan', 'feb', 'march','april','may']
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: 'Sale Per Month'
             }
         },
         series: [{
@@ -410,9 +415,9 @@ $(function () {
             }
         },
         series: [{
-            name: "Brands",
+            name: "SALE",
             colorByPoint: true,
-            data: [{{dic.july}},{{dic.aug}},{{dic.sep}},{{dic.april}},{{dic.may}}]
+            data: [{{dic.july}},{{dic.aug}},{{dic.sep}}]
         }]
     });
 });

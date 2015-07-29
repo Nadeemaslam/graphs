@@ -61,7 +61,6 @@ class LoginView(FormView):
             if user is not None:
                 login(request,user)
                 if user.is_active:
-                    print "kakaka"
                     login(request, user)
                   # Redirect to index page.
                     next = request.GET.get('next', None)
@@ -69,10 +68,10 @@ class LoginView(FormView):
                         return HttpResponseRedirect(next)
                     if request.user.userprofile.user_type=="S":
                         print "hiiiiiiiii"
-                        return  HttpResponseRedirect('/access/super')
-                    else:
-                        print "jajajaja"
-                        return  HttpResponseRedirect('/graphs/')
+                        return  HttpResponseRedirect('/graphs')
+                    # else:
+                    #     print "jajajaja"
+                    #     return  HttpResponseRedirect('/graphs/')
                     
                 else:
                   # Return a 'disabled account' error message
@@ -183,10 +182,15 @@ class SuperView(TemplateView,View):
             # created_documents = UserProfile.objects.filter(
             #             created_on__gte=date_from).count()
             entries=UserProfile.objects.extra({'published':"date(created_on)"}).values('published').annotate(count=Count('id'))
-            print entries
+            # print entries
             monthly=UserProfile.objects.extra({'published':"month(created_on)"}).values('published').annotate(count=Count('id'))
-            
-            
+            entry_list=[]
+            for i in entries:
+                i['published']=i.get('published').strftime("%Y-%m-%d")
+                entry_list.append(i)
+                
+
+            print entry_list
             # dic= dict(monthly)
             # data_1=[]
             # for s in monthly:
@@ -205,13 +209,12 @@ class SuperView(TemplateView,View):
             per_day=[]
             pub_date=[]
             for x in entries:
-                print x
-                pub_date.append(x["published"].strftime("%Y-%m-%d"))
+                pub_date.append(x["published"])
                 per_day.append(x["count"])
             
             print per_day
             print pub_date  
 
             
-            return self.render_to_response({'users': users,'per_day':per_day,'pub_date':json.dumps(pub_date)})
+            return self.render_to_response({'users': users,'per_day':per_day,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
         return HttpResponseRedirect(reverse('audit'))
