@@ -1,0 +1,170 @@
+body{
+
+	/*background-color: #313131;*/
+}
+.logo h3 {
+
+	color: #fff;
+	text-transform: capitalize;
+	font-size:24px;
+}
+
+.navbar-default {
+    background-color: #15151D;
+    border-color: #E7E7E7;
+}
+
+.navbar {
+
+	margin-bottom: 0px;
+	border:none;
+}
+
+.nav-pills li a {
+	border-radius:0px !important;
+	background-color: #34343E;
+	border-width: 1px 1px 0px;
+	border-style: solid solid none;
+	border-color: #34343E #34343E -moz-use-text-color;
+	
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:green;
+    background-color:#fff !important;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color:transparent;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #fff;
+    background-color:transparent;
+}
+.navbar-brand {
+	padding:0 15px;
+}
+
+@media (max-width:300px) {
+	body{
+		font-size:10px;
+		}
+	}
+
+@media (max-width:300px) { 
+    .nav-pills > li a{
+       padding: 8px 6px; 
+    }
+}
+
+@media (max-width:480px) {
+	body{
+		font-size:10px;
+		}
+	}
+
+@media (max-width:480px) { 
+    .nav-pills > li a{
+       padding: 8px 6px; 
+    }
+}
+
+
+
+.chart-list li a{
+
+	text-transform: capitalize;
+	color: #fff;
+}
+
+.chart-tabs {
+background-color: #15151D;
+padding-top: 10px;
+}
+.chart-div{
+	background-color: #15151D;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.tab1{
+	padding:10px 0;
+}
+
+#footer{
+	background-color: #15151D;
+	min-height:100px;
+}
+.footer-copy{
+	padding:20px 0;
+	text-align: center;
+	color: #fff;
+
+}
+#wrapper {
+	padding-left: 225px;
+	}
+.navbar-header{
+
+	padding-top: 10px;
+}
+
+.navbar-search {
+    padding-right: 27px;
+    padding-top: 7px;
+}
+
+.side-nav {
+    margin-left: -225px;
+    left: 225px;
+    width: 225px;
+    position: fixed;
+    top: 50px;
+    height: 100%;
+    border-radius: 0px;
+    border: medium none;
+    background-color: #222;
+    overflow-y: auto;
+}
+
+.side-nav > li > a {
+    width: 225px;
+}
+
+#page-wrapper {
+    padding: 40px 25px;
+}
+
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+
+
+
+
+@media screen and (max-width: 300px) {
+    #page-wrapper {
+    float: left;
+    width:250px;
+    padding: 40px 0px;
+    margin-left: -225px;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    #page-wrapper {
+    float: left;
+    width:500px;
+    padding: 40px 0px 0 40px;
+    margin-left: -225px;
+    }
+}
+
+
+
+

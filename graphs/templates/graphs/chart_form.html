@@ -1,0 +1,961 @@
+{% load staticfiles %}  
+<!DOCTYPE html> 
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>My first column chart by Highcharts</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/highcharts-more.js"></script>
+        <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+        <script src="http://code.highcharts.com/modules/funnel.js"></script>
+        <script src="http://code.highcharts.com/modules/heatmap.js"></script>
+        <script src="http://code.highcharts.com/modules/treemap.js"></script>
+
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/bootstrap.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/style.css' %}"/>
+
+
+      
+
+
+
+                
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                        </a>
+                        <a class="navbar-brand logo" href="#">
+                            <h3>Graphs</h3>
+                        </a>
+                    </div>
+            <div class="collapse navbar-collapse">
+                <div id="menu-container">
+                    <div id="#" class="#">
+                                
+                    <ul class="nav navbar-nav pull-right">
+                    
+
+
+
+                    {% if user.is_authenticated %}
+                    <li><a href="#">Welcome |{{request.user.username}}  </a></li>
+                    <li><a href="{% url 'user_edit'  %}">Edit Profile</a></li>
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class=""><a href="{% url 'account_login' %}">Login</a></li>
+                    <li class=""><a href="/access/signup/">Signup</a></li>
+                    {% endif %}
+                    
+                    
+                    </ul>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            
+                           
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
+
+<!--        <li><a href="/graphs/sale/">Model graph </a></li>
+ -->        
+            <div class="chart-tabs">
+                <div class="container">
+
+                        <ul class="nav nav-pills chart-list">
+                          <li class="active"><a data-toggle="pill" href="#home">spline</a></li>
+                          {%if request.user.userprofile.user_type == 'C'%}
+                          <li><a data-toggle="pill" href="#menu1">Column</a></li>
+                          <li><a data-toggle="pill" href="#menu2">Area</a></li>
+                          {% else %}
+
+                          <li><a data-toggle="pill" href="#menu3">Bar</a></li>
+                          <li><a data-toggle="pill" href="#menu4">Line</a></li>
+                          <li><a data-toggle="pill" href="#menu5">Pie</a></li>
+                          <li><a data-toggle="pill" href="#menu6">Polar</a></li>
+                          <li><a data-toggle="pill" href="#menu7">scatter</a></li>
+                          <li><a data-toggle="pill" href="#menu8">Waterfall</a></li>
+                          <li><a data-toggle="pill" href="#menu9">Gauges</a></li>
+                          <li><a data-toggle="pill" href="#menu10">3d</a></li>
+                          <li><a data-toggle="pill" href="#menu11">combo</a></li>
+                          <li><a data-toggle="pill" href="#menu12">Pyramid</a></li>
+                          <li><a data-toggle="pill" href="#menu13">Tree</a></li>
+                          <li><a data-toggle="pill" href="#menu14">Heat</a></li>
+                           {% endif%}
+
+                          
+
+
+                        </ul>
+                </div>
+            </div>
+
+            <div class="container  chart-div">
+              
+                <div class="tab-content col-md-12">
+            
+                
+                
+                  <div id="home" class="tab-pane fade in active"> 
+                    <div class="col-md-3"></div>
+                    {{ user }}
+                    
+
+                    <div class="col-md-6"id="container1" style="padding:10px 10px;margin:0 auto "></div>
+                    
+                    <div class="col-md-3"></div>
+
+                  </div>
+      <div id="menu1" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6" id="container2" style="padding:10px 10px; margin: 0 auto"></div>
+                    <div class="col-md-3"></div>
+                  </div>
+
+                  <div id="menu2" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container3" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                  <div id="menu3" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container4" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                  <div id="menu4" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container5" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                   <div id="menu5" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container6" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+
+                  <div id="menu6" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container7" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                   <div id="menu7" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container8" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                  <div id="menu8" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container9" style="padding:10px 10px; margin: 0 auto"></div> 
+                   
+                    <div class="col-md-3"></div>
+                  </div>
+
+
+                  <div id="menu9" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container10" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+
+                  <div id="menu10" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container11" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                   <div id="menu11" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container12" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+
+                  <div id="menu12" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container13" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                  <div id="menu13" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container14" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+                  <div id="menu14" class="tab-pane fade">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"  id="container15" style="padding:10px 10px; margin: 0 auto"></div> 
+                    <div class="col-md-3"></div>
+                  </div>
+
+
+                  
+
+                </div>
+                
+            </div>
+    
+
+
+        <!-- Add the container -->
+<div id="footer">
+            <div class="container">
+                <div class="">                              
+                    <div class="footer-copy">
+                        © 2015 Nadeem Aslam. All rights reserved.                
+                     </div>
+                </div>
+            </div>
+</div>
+        <!-- <script  type="text/javascript" src="{% static 'graphs/js/jquery-1.11.3.js' %}"/></script>
+        <script  type="text/javacript" src="{% static 'graphs/js/highcharts.js' %}"/></script> -->
+
+
+        
+        
+        
+        
+        
+        <script type="text/javascript">
+ $(function () { 
+    $('#container1').highcharts({
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Account Details per month'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [10,8,88]
+        }
+        ]
+    });
+});
+   $(function () { 
+    $('#container4').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Account Details per month'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [10,8,88]
+        }
+        ]
+    });
+});
+
+ ////////
+  $(function () { 
+    $('#container2').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Account Details per month'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [10,8,88]
+        }
+        ]
+    });
+});
+
+  
+
+$(function () { 
+    $('#container3').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Account Details per month'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [10,8,88]
+        }
+        ]
+    });
+});
+
+$(function () { 
+    $('#container5').highcharts({
+        chart: {
+            type: 'line',
+        },
+        title: {
+            text: 'Account Details per month'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [100,800,808]
+        }
+        ]
+    });
+});
+
+//pie chart
+$(function () {
+    $('#container6').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Browser market sales January, 2015 to May, 2015'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: "Brands",
+            colorByPoint: true,
+            data: [{{dic.july}},{{dic.aug}},{{dic.sep}},{{dic.april}},{{dic.may}}]
+        }]
+    });
+});
+
+// polar chart
+
+$(function () {
+
+    window.chart = new Highcharts.Chart({
+                
+        chart: {
+            renderTo: 'container7',
+            polar: true,
+            type: 'area'
+        },
+        
+        title: {
+            text: 'Budget vs spending',
+            x: -80
+        },
+        
+        pane: {
+            size: '80%'
+        },
+        
+        xAxis: {
+            categories: ['Sales', 'Marketing', 'Development', 'Customer Support', 
+                    'Information Technology', 'Administration'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+            
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+        
+        tooltip: {
+            shared: true,
+            valuePrefix: '$'
+        },
+        
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 100,
+            layout: 'vertical'
+        },
+        
+        series: [{
+            name: 'Allocated Budget',
+            data: {{result_sale}},
+            pointPlacement: 'on'
+        }, {
+            name: 'Actual Spending',
+            data: [5000, 3900, 4200, 3100, 2600, 1400],
+            pointPlacement: 'on'
+        }]
+    
+    });
+});
+
+// scattered chart
+$(function () {
+    $('#container8').highcharts({
+        chart: {
+            type: 'scatter',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Height Versus Weight of 507 Individuals by Gender'
+        },
+        subtitle: {
+            text: 'Source:Applied'
+        },
+        xAxis: {
+            title: {
+                enabled: true,
+                text: 'Height (cm)'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Weight (kg)'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<b>{series.name}</b><br>',
+                    pointFormat: '{point.x} cm, {point.y} kg'
+                }
+            }
+        },
+        series: [{
+            name: 'Female',
+            color: 'rgba(223, 83, 83, .5)',
+            data: {{result_sale}}
+
+        }, {
+            name: 'Male',
+            color: 'rgba(119, 152, 191, .5)',
+            data: [[1740, 656], [1753, 718], [1935, 807],[1872, 788]]
+                
+                
+        }]
+    });
+});
+
+//waterfall chart
+$(function () {
+    $('#container9').highcharts({
+        chart: {
+            type: 'waterfall'
+        },
+
+        title: {
+            text: 'Highcharts Waterfall'
+        },
+
+        xAxis: {
+            type: 'category'
+        },
+
+        yAxis: {
+            title: {
+                text: 'USD'
+            }
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        tooltip: {
+            pointFormat: '<b>${point.y:,.2f}</b> USD'
+        },
+
+        series: [{
+            upColor: Highcharts.getOptions().colors[2],
+            color: Highcharts.getOptions().colors[3],
+            data: [{{dic.july}},{{dic.aug}},{{dic.sep}},{{dic.april}},{{dic.may}}
+               , {
+                name: 'Balance',
+                isSum: true,
+                color: Highcharts.getOptions().colors[1]
+            }],
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    return Highcharts.numberFormat(this.y / 1000, 0, ',') + 'k';
+                },
+                style: {
+                    color: '#FFFFFF',
+                    fontWeight: 'bold',
+                    textShadow: '0px 0px 3px black'
+                }
+            },
+            pointPadding: 0
+        }]
+    });
+});
+
+
+
+///gauges
+
+$(function () {
+    $('#container10').highcharts({
+
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+
+        title: {
+            text: 'Speedometer'
+        },
+
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                // default background
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 0,
+                outerRadius: '105%',
+                innerRadius: '103%'
+            }]
+        },
+
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 200,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: 'km/h'
+            },
+            plotBands: [{
+                from: 0,
+                to: 120,
+                color: '#55BF3B' // green
+            }, {
+                from: 120,
+                to: 160,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: 160,
+                to: 200,
+                color: '#DF5353' // red
+            }]
+        },
+
+        series: [{
+            name: 'Speed',
+            data: {{result_sale}},
+            tooltip: {
+                valueSuffix: ' km/h'
+            }
+        }]
+
+    },
+        // Add some life
+        function (chart) {
+            if (!chart.renderer.forExport) {
+                setInterval(function () {
+                    var point = chart.series[0].points[0],
+                        newVal,
+                        inc = Math.round((Math.random() - 0.5) * 20);
+
+                    newVal = point.y + inc;
+                    if (newVal < 0 || newVal > 200) {
+                        newVal = point.y - inc;
+                    }
+
+                    point.update(newVal);
+
+                }, 3000);
+            }
+        });
+});
+//3d
+$(function () {
+    $('#container11').highcharts({
+        chart: {
+            type: 'column',
+            margin: 75,
+            options3d: {
+                enabled: true,
+                alpha: 15,
+                beta: 15,
+                depth: 50
+            }
+        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        series: [{
+            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+        }]
+    });
+});
+
+//combination chart
+
+$(function () {
+    $('#container12').highcharts({
+        title: {
+            text: 'Combination chart'
+        },
+        xAxis: {
+            categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+        },
+        labels: {
+            items: [{
+                html: 'Total fruit consumption',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{
+            type: 'column',
+            name: 'Jane',
+            data: {{result_sale}}
+        },{
+            type: 'spline',
+            name: 'Average',
+            data: {{result_sale}},
+            marker: {
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[3],
+                fillColor: 'black'
+            }
+        }, {
+            type: 'pie',
+            name: 'Total consumption',
+            data: {{result_sale}},
+            center: [70, 50],
+            size: 80,
+            showInLegend: false,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+});
+
+//pyramid chart
+$(function () {
+
+    $('#container13').highcharts({
+        chart: {
+            type: 'pyramid',
+            marginRight: 100
+        },
+        title: {
+            text: 'Sales pyramid',
+            x: -50
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b> ({point.y:,.0f})',
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                    softConnector: true
+                }
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Unique users',
+            data: [{{dic.jan}},{{dic.feb}},{{dic.march}},{{dic.april}},{{dic.may}}
+            ]
+        }]
+    });
+});
+
+//tree
+$(function () {
+    $('#container14').highcharts({
+        colorAxis: {
+            minColor: '#FFFFFF',
+            maxColor: Highcharts.getOptions().colors[0]
+        },
+        series: [{
+            type: "treemap",
+           layoutAlgorithm: 'stripes',
+            alternateStartingDirection: true,
+            levels: [{
+                level: 1,
+                layoutAlgorithm: 'sliceAndDice',
+                dataLabels: {
+                    enabled: true,
+                    align: 'left',
+                    verticalAlign: 'top',
+                    style: {
+                        fontSize: '15px',
+                        fontWeight: 'bold'
+                    }
+                }
+            }],
+            data: [{{dic.jan}},{{dic.feb}},{{dic.march}},{{dic.april}},{{dic.may}},
+             {
+                name: 'B',
+                value: 6,
+                colorValue: 2
+            }, {
+                name: 'C',
+                value: 4,
+                colorValue: 3
+            }, {
+                name: 'D',
+                value: 3,
+                colorValue: 4
+            }, {
+                name: 'E',
+                value: 2,
+                colorValue: 5
+            }, {
+                name: 'F',
+                value: 2,
+                colorValue: 6
+            }, {
+                name: 'G',
+                value: 1,
+                colorValue: 7
+            }]
+        }],
+        title: {
+            text: 'Highcharts Treemap'
+        }
+    });
+});
+
+// heat
+$(function () {
+
+    $('#container15').highcharts({
+
+        chart: {
+            type: 'heatmap',
+            marginTop: 40,
+            marginBottom: 80
+        },
+
+
+        title: {
+            text: 'Sales per employee per weekday'
+        },
+
+        xAxis: {
+            categories: ['Alexander', 'Marie', 'Maximilian', 'Sophia', 'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']
+        },
+
+        yAxis: {
+            categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            title: null
+        },
+
+        colorAxis: {
+            min: 0,
+            minColor: '#FFFFFF',
+            maxColor: Highcharts.getOptions().colors[0]
+        },
+
+        legend: {
+            align: 'right',
+            layout: 'vertical',
+            margin: 0,
+            verticalAlign: 'top',
+            y: 25,
+            symbolHeight: 280
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
+                    this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+            }
+        },
+
+        series: [{
+            name: 'Sales per employee',
+            borderWidth: 1,
+            data: [0,1,{{per_day.jan}}],
+            dataLabels: {
+                enabled: true,
+                color: '#000000'
+            }
+        }]
+
+    });
+});
+
+
+
+
+
+
+
+        </script>
+
+        
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+        
+    <script type="text/javascript" src="{% static 'graphs/js/bootstrap.js'%}"/></script>
+     </body>
+</html>

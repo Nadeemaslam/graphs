@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title> Highcharts</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+         
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+         
+         
+        <script type="text/javascript">
+        $(function () { 
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [10,8,88]
+        }
+        ]
+    });
+});
+
+/////////////////
+
+ $(function () { 
+    $('#container1').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['jan', 'feb', 'march','april','may']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: null,
+            data: {{result_sale}}
+        },
+        {
+            name: null,
+            data: [10,8,88]
+        }
+        ]
+    });
+});
+
+
+
+
+
+       </script>
+         
+ </head>
+ <body>
+         <div class="container">
+         	<a href="/graphs/">Back</a>
+        <!-- 3. Add the container -->
+		        <div id="container" style="width: 600px; height: 400px; margin: 0 auto"></div> 
+
+		        <div id="container1" style="width: 600px; height: 400px; margin: 0 auto"></div>
+        </div>
+    
+     </body>
+</html>
