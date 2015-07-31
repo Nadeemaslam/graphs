@@ -22,14 +22,14 @@ class LoginForm(forms.Form):
 
 
 class SignUpForm(forms.Form):
-    '''file are uploaded using this form'''
+    '''new users are registered here'''
 
     first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': '',
+        widget=forms.TextInput(attrs={'placeholder': 'first name',
                                       'class': 'form-control',
                                       'id': 'email'}),
         required=True)
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': '',
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'last name',
                                                               'class': 'form-control',
                                                               'id': 'email'}),
                                 required=True)
@@ -69,7 +69,7 @@ class SignUpForm(forms.Form):
         return self.cleaned_data
 
 class UserEditForm(forms.Form):
-    '''file are uploaded using this form'''
+    '''user details are changed here'''
     email = forms.EmailField(
         widget=forms.TextInput(attrs={'placeholder': 'Email',
                                       'class': 'form-control',

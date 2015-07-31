@@ -1,31 +1,5 @@
-{% load staticfiles %}  
-<!DOCTYPE html> 
-<html>
-<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>My first column chart by Highcharts</title>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/highcharts-more.js"></script>
-        <script src="http://code.highcharts.com/highcharts-3d.js"></script>
-        <script src="http://code.highcharts.com/modules/funnel.js"></script>
-        <script src="http://code.highcharts.com/modules/heatmap.js"></script>
-        <script src="http://code.highcharts.com/modules/treemap.js"></script>
-
-        
-        <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/bootstrap.css' %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/style.css' %}"/>
-
-
-      
-
-
-
-                
-    </head>
-
-    <body>
+{% extends "access/base.html"%} 
+   {% block content %}
         <nav class="navbar navbar-default" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
@@ -33,7 +7,7 @@
                             <span class="sr-only">Toggle navigation</span>
                         </a>
                         <a class="navbar-brand logo" href="#">
-                            <h3>Graphs</h3>
+                            <h3>Admin DashBoard</h3>
                         </a>
                     </div>
             <div class="collapse navbar-collapse">
@@ -47,9 +21,6 @@
 
                     {% if user.is_authenticated %}
                     <li><a href="#">Welcome |{{request.user.username}}  </a></li>
-                        {%if request.user.userprofile.user_type == 'S'%}
-                        <li><a href="{% url 'super_home'  %}">Dashboard</a></li>
-                        {%endif%}
                     <li><a href="{% url 'user_edit'  %}">Edit Profile</a></li>
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
                     {% else %}
@@ -70,28 +41,21 @@
 </nav>
 
 
-
-
-
-
-
-<!--        <li><a href="/graphs/sale/">Model graph </a></li>
- -->        
+        
             <div class="chart-tabs">
                 <div class="container">
 
                         <ul class="nav nav-pills chart-list">
                           <li class="active"><a data-toggle="pill" href="#home">spline</a></li>
-                          {%if request.user.userprofile.user_type == 'C'%}
+                          {%if request.user.userprofile.user_type == 'A'%}
                           <li><a data-toggle="pill" href="#menu1">Column</a></li>
                           <li><a data-toggle="pill" href="#menu2">Area</a></li>
-                          {% endif %}
-                          {%if request.user.userprofile.user_type == 'S'%}
+                          <li><a data-toggle="pill" href="#menu7">scatter</a></li>
                           <li><a data-toggle="pill" href="#menu3">Bar</a></li>
                           <li><a data-toggle="pill" href="#menu4">Line</a></li>
                           <li><a data-toggle="pill" href="#menu5">Pie</a></li>
-                          {%endif%}
-                         {%if request.user.userprofile.user_type == 'A'%}
+                          {% endif %}
+                         {%if request.user.userprofile.user_type == 'C'%}
 
                           <li><a data-toggle="pill" href="#menu6">Polar</a></li>
                           <li><a data-toggle="pill" href="#menu7">scatter</a></li>
@@ -101,7 +65,6 @@
                           <li><a data-toggle="pill" href="#menu11">combo</a></li>
                           <li><a data-toggle="pill" href="#menu12">Pyramid</a></li>
                           <li><a data-toggle="pill" href="#menu13">Tree</a></li>
-                          <li><a data-toggle="pill" href="#menu14">Heat</a></li>
                            {% endif%}
 
                           
@@ -209,11 +172,6 @@
                     <div class="col-md-3"></div>
                   </div>
 
-                  <div id="menu14" class="tab-pane fade">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6"  id="container15" style="padding:10px 10px; margin: 0 auto"></div> 
-                    <div class="col-md-3"></div>
-                  </div>
 
 
                   
@@ -224,7 +182,7 @@
     
 
 
-        <!-- Add the container -->
+        <!--footer -->
 <div id="footer">
             <div class="container">
                 <div class="">                              
@@ -234,8 +192,7 @@
                 </div>
             </div>
 </div>
-        <!-- <script  type="text/javascript" src="{% static 'graphs/js/jquery-1.11.3.js' %}"/></script>
-        <script  type="text/javacript" src="{% static 'graphs/js/highcharts.js' %}"/></script> -->
+       
 
 
         
@@ -396,7 +353,7 @@ $(function () {
             type: 'pie'
         },
         title: {
-            text: 'Browser market sales January, 2015 to May, 2015'
+            text: 'Sale Details per month'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -558,6 +515,60 @@ $(function () {
 });
 
 //waterfall chart
+// $(function () {
+//     $('#container9').highcharts({
+//         chart: {
+//             type: 'waterfall'
+//         },
+
+//         title: {
+//             text: 'Highcharts Waterfall'
+//         },
+
+//         xAxis: {
+//             type: 'category'
+//         },
+
+//         yAxis: {
+//             title: {
+//                 text: 'USD'
+//             }
+//         },
+
+//         legend: {
+//             enabled: false
+//         },
+
+//         tooltip: {
+//             pointFormat: '<b>${point.y:,.2f}</b> USD'
+//         },
+
+//         series: [{
+//             upColor: Highcharts.getOptions().colors[2],
+//             color: Highcharts.getOptions().colors[3],
+//             data: [{{dic.july}},{{dic.aug}},{{dic.sep}},{{dic.april}},{{dic.may}}
+//                , {
+//                 name: 'Balance',
+//                 isSum: true,
+//                 color: Highcharts.getOptions().colors[1]
+//             }],
+//             dataLabels: {
+//                 enabled: true,
+//                 formatter: function () {
+//                     return Highcharts.numberFormat(this.y / 1000, 0, ',') + 'k';
+//                 },
+//                 style: {
+//                     color: '#FFFFFF',
+//                     fontWeight: 'bold',
+//                     textShadow: '0px 0px 3px black'
+//                 }
+//             },
+//             pointPadding: 0
+//         }]
+//     });
+// });
+
+
 $(function () {
     $('#container9').highcharts({
         chart: {
@@ -589,8 +600,26 @@ $(function () {
         series: [{
             upColor: Highcharts.getOptions().colors[2],
             color: Highcharts.getOptions().colors[3],
-            data: [{{dic.july}},{{dic.aug}},{{dic.sep}},{{dic.april}},{{dic.may}}
-               , {
+            data: [{
+                name: 'Start',
+                y: 120000
+            }, {
+                name: 'Product Revenue',
+                y: 569000
+            }, {
+                name: 'Service Revenue',
+                y: 231000
+            }, {
+                name: 'Positive Balance',
+                isIntermediateSum: true,
+                color: Highcharts.getOptions().colors[1]
+            }, {
+                name: 'Fixed Costs',
+                y: -342000
+            }, {
+                name: 'Variable Costs',
+                y: -233000
+            }, {
                 name: 'Balance',
                 isSum: true,
                 color: Highcharts.getOptions().colors[1]
@@ -610,6 +639,7 @@ $(function () {
         }]
     });
 });
+
 
 
 
@@ -827,7 +857,7 @@ $(function () {
         },
         series: [{
             name: 'Unique users',
-            data: [{{dic.jan}},{{dic.feb}},{{dic.march}},{{dic.april}},{{dic.may}}
+            data: [{{dic.jul}},{{dic.aug}},{{dic.sep}}
             ]
         }]
     });
@@ -857,7 +887,7 @@ $(function () {
                     }
                 }
             }],
-            data: [{{dic.jan}},{{dic.feb}},{{dic.march}},{{dic.april}},{{dic.may}},
+            data: [{{dic.Aug}},{{dic.july}},{{dic.sep}},
              {
                 name: 'B',
                 value: 6,
@@ -890,65 +920,7 @@ $(function () {
     });
 });
 
-// heat
-$(function () {
 
-    $('#container15').highcharts({
-
-        chart: {
-            type: 'heatmap',
-            marginTop: 40,
-            marginBottom: 80
-        },
-
-
-        title: {
-            text: 'Sales per employee per weekday'
-        },
-
-        xAxis: {
-            categories: ['Alexander', 'Marie', 'Maximilian', 'Sophia', 'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']
-        },
-
-        yAxis: {
-            categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-            title: null
-        },
-
-        colorAxis: {
-            min: 0,
-            minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
-        },
-
-        legend: {
-            align: 'right',
-            layout: 'vertical',
-            margin: 0,
-            verticalAlign: 'top',
-            y: 25,
-            symbolHeight: 280
-        },
-
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-                    this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-            }
-        },
-
-        series: [{
-            name: 'Sales per employee',
-            borderWidth: 1,
-            data: [0,1,{{per_day.jan}}],
-            dataLabels: {
-                enabled: true,
-                color: '#000000'
-            }
-        }]
-
-    });
-});
 
 
 
@@ -959,8 +931,5 @@ $(function () {
         </script>
 
         
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>
-        
-    <script type="text/javascript" src="{% static 'graphs/js/bootstrap.js'%}"/></script>
-     </body>
-</html>
+       
+{%endblock%}

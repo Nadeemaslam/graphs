@@ -1,0 +1,10 @@
+{% extends "access/base.html"%}
+{%block content%}
+<body><p>Are you sure you want to delete this User?</p>
+
+<form action="" method="post">{% csrf_token %}
+	<input class="" name="user_id" id="user_id" type="hidden" value="{{ user_id }}">
+    <input type="submit" value="YES" />
+    <a href="/access/super" class="btn">Cancel</a>
+</form>
+{%endblock%}

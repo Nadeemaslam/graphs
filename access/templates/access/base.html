@@ -13,9 +13,11 @@
         <script src="http://code.highcharts.com/modules/funnel.js"></script>
         <script src="http://code.highcharts.com/modules/heatmap.js"></script>
         <script src="http://code.highcharts.com/modules/treemap.js"></script>
-
+         <script src="http://code.highcharts.com/modules/exporting.js"></script>
         
         <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/bootstrap.css' %}"/>
+         <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/reset.css' %}"/>
+
         <link rel="stylesheet" type="text/css" href="{% static 'graphs/css/style.css' %}"/>
 
 
@@ -25,11 +27,16 @@
 
                 
     </head>
+
 <body>
+
 {% block content %}{% endblock %}
- <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
         
     <script type="text/javascript" src="{% static 'graphs/js/bootstrap.js'%}"/></script>
 
-    </body>
+     
+</body>
+
+
 </html>

@@ -44,7 +44,7 @@ class UserInstanceResource:
 
     def _update(self, id, password=None, first_name=None, last_name=None,
                 email=None):
-        user = User.objects.get(pk=id)
+        user = User.objects.get(id=id)
         if password:
             user.set_password(password)
         if first_name:
@@ -59,7 +59,10 @@ class UserInstanceResource:
 
     def _filter(self,email=None,user_type=None):
         # filter by
-        return User.objects.filter(username=email)
+        if email:
+            return User.objects.filter(username=email)
+        return User.objects.all() 
+        
 
 
 

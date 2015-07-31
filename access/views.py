@@ -21,17 +21,17 @@ import json
 
 class LoginView(FormView):
     '''Base class for Login'''
+
     template_name = 'access/login.html'
     form_class = LoginForm
     
     def get(self, request, *args, **kwargs):
         '''
-        returns Index Page with Login Form for unauthenicated user
-        where as  authenticated user are returned to maps
+        returns Login Page with Login Form for unauthenicated user
+        where as  authenticated user are returned to dashboard
          '''
         if request.user.is_authenticated():
             if  request.user.userprofile.user_type=="S":
-                print "hiiiiiiiii"
                 return  HttpResponseRedirect('/access/super')
             else:
                 return  HttpResponseRedirect('/graphs/')
@@ -45,9 +45,9 @@ class LoginView(FormView):
     def post(self, request, *args, **kwargs):
         '''
         authentication is done here after givings username and password
-        if user is authenticated returned to maps page
+        if user is authenticated returned to dashboard page
         where as unauthenticated user or invalid email
-        or passwords are turned back to index page with
+        or passwords are turned back to login page with
         validation errors or invalid user
         '''
         data = request.POST.copy()
@@ -62,22 +62,23 @@ class LoginView(FormView):
                 login(request,user)
                 if user.is_active:
                     login(request, user)
-                  # Redirect to index page.
+                  
                     next = request.GET.get('next', None)
                     if next:
                         return HttpResponseRedirect(next)
                     if request.user.userprofile.user_type=="S":
-                        print "hiiiiiiiii"
+                        return  HttpResponseRedirect('/access/super')
+                    if request.user.userprofile.user_type=="A":
                         return  HttpResponseRedirect('/graphs')
+
+
                     # else:
-                    #     print "jajajaja"
                     #     return  HttpResponseRedirect('/graphs/')
                     
                 else:
                   # Return a 'disabled account' error message
                     return HttpResponse("You're account is disabled.")
             else:
-                print "lalala"
               # Return an 'invalid login' error message.
                 context['form'] = form
                 return self.render_to_response(context)
@@ -85,17 +86,20 @@ class LoginView(FormView):
             context['form']= form
             return self.render_to_response(context)
 
-
+'''Signup view'''
 class SignupView(FormView):
-    
+    ''' Class View for signup page'''
+
     form_class = SignUpForm
     template_name = 'access/signup.html'
 
     def get(self, request, *args, **kwargs):
+
         form = self.form_class()
         return self.render_to_response({'form': form})
 
     def post(self, request, *args, **kwargs):
+
         data = request.POST
         form = self.form_class(data)
         if form.is_valid():
@@ -110,111 +114,169 @@ class SignupView(FormView):
 
 
 
-
+'''Logout view'''
 class LogoutView(View):
     '''base class for logout'''
 
     def get(self, *args, **kwargs):
-        '''authenticated users are returned back to index page'''
+
+        '''authenticated users are returned back to Login page'''
+
         if self.request.user.is_authenticated():
             logout(self.request)
-        return HttpResponseRedirect(reverse('audit'))
+        return HttpResponseRedirect(reverse('account_login'))
+
+
+
+
+
+
 
 class UserEditView(FormView):
+    '''User Edit-profile view'''
+
     form_class = UserEditForm
     template_name = 'access/user_edit.html'
 
     def get(self, request, *args, **kwargs):
-        u = User.objects.get(pk=1)
-        if u:
-            initial_data = {'firstname':u.first_name,
-                            'lastname':u.last_name,
-                            'email':u.email
+
+        id=request.user.id
+        user_data = UserInstanceResource()._get(id=id)
+        if user_data:
+            initial_data = {'firstname':user_data.first_name,
+                            'lastname':user_data.last_name,
+                            'email':user_data.email
                             }
-            form = self.form_class(initial=initial_data)
+        form = self.form_class(initial=initial_data)
         return self.render_to_response({'form': form})
 
     def post(self, request, *args, **kwargs):
-        
+
+        id=request.user.id
         data = request.POST
         form = self.form_class(data)
-        u = User.objects.get(pk=1)
-        print u
         if form.is_valid():
             email = form.cleaned_data['email']
             first_name=request.POST['first_name']
-            print first_name
             last_name=request.POST['last_name']
-            print last_name
-            UserInstanceResource()._update(email=email,id=1,first_name=first_name,last_name=last_name)
+            UserInstanceResource()._update(email=email,id=id,first_name=first_name,last_name=last_name)
             return HttpResponseRedirect('/graphs/')
         return self.render_to_response({'form': form})
 
+
+
+
 class SuperView(TemplateView,View):
-    '''super admins home page is returned'''
-    # form_class=UploadForm
+    '''super admins dashboard page is returned'''
+    
     template_name = 'access/superadmin_dashboard.html'
 
     @access_required_super()
     def get(self, request, *args, **kwargs):
         '''only superadmin can access this page by using decorator'''
-        # context = {}
-        # if request.session.get('message',''):
-        #     context['message'] = request.session['message']
+        
 
-        # context['user_properties'] = Properties.objects.all()
-        # context['form']=self.form_class()
-        # return self.render_to_response(context)
-        print"hi nad"
-        msg=[]
         if self.request.user.is_authenticated():
-            print 'lala'
             users=UserProfile.objects.all()
-            # first_date = datetime.date(2015,07,22)
-            # last_date = datetime.date(2015,07,28)
-            # query_set=UserProfile.objects.filter(created_on__range=(first_date, last_date)).count()
-            # gg=UserProfile.objects.filter(created_on__gte=datetime.date.today()).count()
-            # # print query_set,gg
-            # for i in range(1, 8):
-            #     n=UserProfile.objects.filter(created_on__week_day=i).count()
-
-            # date_from = datetime.datetime.now() - datetime.timedelta(days=30)
-            # created_documents = UserProfile.objects.filter(
-            #             created_on__gte=date_from).count()
             entries=UserProfile.objects.extra({'published':"date(created_on)"}).values('published').annotate(count=Count('id'))
-            # print entries
-            monthly=UserProfile.objects.extra({'published':"month(created_on)"}).values('published').annotate(count=Count('id'))
+            
             entry_list=[]
-            for i in entries:
-                i['published']=i.get('published').strftime("%Y-%m-%d")
+            for entry in entries:
+                entry['published']=entry.get('published').strftime("%Y-%m-%d")
                 entry_list.append(i)
                 
-
-            print entry_list
-            # dic= dict(monthly)
-            # data_1=[]
-            # for s in monthly:
-            #     for d,v in  s.items():
-                
-            #         # print d,v 
-            #         data_1.append(s.get('count'))
-            #     print (s.get("count")),"kk"
             
-                    
-                
-
-            # dic=dict(data_1)
-
-            
-            per_day=[]
+            perday_count=[]
             pub_date=[]
-            for x in entries:
-                pub_date.append(x["published"])
-                per_day.append(x["count"])
+            for new_entry in entries:
+                pub_date.append(new_entry["published"])
+                perday_count.append(new_entry["count"])
             
-            print per_day
+            print perday_count
             print pub_date  
 
             
-            return self.render_to_response({'users': users,'per_day':per_day,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
+            return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
         return HttpResponseRedirect(reverse('audit'))
+
+
+
+
+'''user-delete view'''
+
+class UserDeleteView(TemplateView,View):
+    '''User is deleted by super admin'''
+    template_name = 'access/user_delete.html'
+
+    def delete_user(self,user_id):
+        user =User.objects.get(pk=user_id)
+        user.delete()
+
+    @access_required_super()
+    def get(self, request, *args, **kwargs):
+        '''
+        :param request:user id
+        :param args:
+        :param kwargs: users id
+        :return: delete option pops up
+        '''
+        context = {}
+        context['user_id']  = kwargs.get('user_id','')
+        return self.render_to_response(context)
+
+    def post(self,request, *args, **kwargs):
+        '''
+        :param request:
+        :param args:
+        :param kwargs:user_id
+        :return:user is deleted and is back returned to home page
+
+        '''
+    
+        data = request.POST.copy()
+        self.delete_user(data.get('user_id',''))
+
+        messages.success(request, 'User Deleted Successfully.',
+                         extra_tags='alert-success')
+        return HttpResponseRedirect("/access/super")
+
+'''charts view'''
+class ChartView(TemplateView,View):
+    
+    template_name = 'access/charts.html'
+
+    def get(self, request, *args, **kwargs):
+        users=UserProfile.objects.all()
+        entries=UserProfile.objects.extra({'published':"date(created_on)"}).values('published').annotate(count=Count('id'))
+        
+        entry_list=[]
+        for i in entries:
+            i['published']=i.get('published').strftime("%Y-%m-%d")
+            entry_list.append(i)
+
+        perday_count=[]
+        pub_date=[]
+        for i in entries:
+            pub_date.append(i["published"])
+            perday_count.append(i["count"])  
+
+        
+        return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
+
+    def post(self,request, *args, **kwargs):
+
+        entries=UserProfile.objects.extra({'published':"date(created_on)"}).values('published').annotate(count=Count('id'))
+        monthly=UserProfile.objects.extra({'published':"month(created_on)"}).values('published').annotate(count=Count('id'))
+        entry_list=[]
+        for i in entries:
+            i['published']=i.get('published').strftime("%Y-%m-%d")
+            entry_list.append(i)
+
+        perday_count=[]
+        pub_date=[]
+        for i in entries:
+            pub_date.append(i["published"])
+            perday_count.append(i["count"])  
+        return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
+   
+        

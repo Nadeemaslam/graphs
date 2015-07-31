@@ -1,13 +1,20 @@
 {% extends "access/base.html"%} 
 
 {% block content %}
-{{form.errors}}
+
+
+<div class="signup-header">
+    <span><h1>User Edit</h1></span>
+    <p>Welcome to User Edit Page!</p>
+</div>
+ <div class="col-md-3"></div>
  <div class="row">
  <div class="col-md-6">
      <br>
-    <form class="form-horizontal" role="form"  method="post" action="/access/edit/">
-    <!-- Text input-->
+    <form class="form-horizontal form" role="form"  method="post" action="/access/edit/">
+    {{form.errors}}
     {% csrf_token %}
+
     <div class="form-group">
     <label class="col-sm-2 control-label" for="textinput">Firstname</label>
     <div class="col-sm-10">
@@ -27,6 +34,7 @@
     <label class="col-sm-2 control-label" for="textinput">Email</label>
     <div class="col-sm-10">
         {{ form.email}}
+        {{form.error}}
     </div>
     </div>
 
@@ -44,4 +52,16 @@
     </form>
 </div>
 </div>
-{% endblock %}        
+ <div class="col-md-3"></div>
+
+   <div id="footer">
+            <div class="container">
+                <div class="">                              
+                    <div class="footer-copy">
+                        © 2015 Nadeem Aslam. All rights reserved.                
+                     </div>
+                </div>
+            </div>
+</div>    
+   {% endblock %} 
+       

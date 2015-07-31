@@ -5,45 +5,43 @@ from django.core.urlresolvers import reverse
 from django.views.generic import View
 
 
-def show_chart(request):
-	return render_to_response('graphs/chart_form.html')
+# def show_chart(request):
+# 	return render_to_response('graphs/chart_form.html')
 
-def my_data(request):
-    myData = {}
-    myData['apples'] = 7
-    myData['oranges'] = 3
-    myData['bananas'] = 5
-    return render(request,'graphs/chart_form.html',{"myData":myData})
+# def my_data(request):
+#     myData = {}
+#     myData['apples'] = 7
+#     myData['oranges'] = 3
+#     myData['bananas'] = 5
+#     return render(request,'graphs/chart_form.html',{"myData":myData})
 
 class Audit(View):
 
 	def get(self, request):
-		# print dir(request.user)
 		raw_data = SaleData.objects.all()
 		result_sale=[]
 		result_month = []
-		for d in raw_data:
-			result_sale.append(int(d.sale))
-			result_month.append(str(d.month))
+		for obj in raw_data:
+			result_sale.append(int(obj.sale))
+			result_month.append(str(obj.month))
 
 
 		pie_data = SaleData.objects.all()
 		data_1=[]
-		for d in pie_data:
+		for obj in pie_data:
 			temp = []
-			temp.append(str(d.month))
-			temp.append(int(d.sale))
+			temp.append(str(obj.month))
+			temp.append(int(obj.sale))
 			data_1.append(temp)
 
 
 		dic=dict(data_1)
 
-		print pie_data
 
 		day_data =SaleData.objects.all()
 		per_day=[]
-		for x in day_data:
-			per_day.append(int(x.sale))
+		for i in day_data:
+			per_day.append(int(i.sale))
 
 		
 
