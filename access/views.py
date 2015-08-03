@@ -183,7 +183,7 @@ class SuperView(TemplateView,View):
             entry_list=[]
             for entry in entries:
                 entry['published']=entry.get('published').strftime("%Y-%m-%d")
-                entry_list.append(i)
+                entry_list.append(entry)
                 
             
             perday_count=[]
