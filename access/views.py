@@ -109,7 +109,7 @@ class SignupView(FormView):
             password = form.cleaned_data['password']
             user_type = form.cleaned_data['user_type']
             UserInstanceResource()._post(email=email,password = password,user_type=user_type,first_name=first_name,last_name=last_name)
-            return HttpResponseRedirect('/graphs/')
+            return HttpResponseRedirect(reverse('account_login'))
         return self.render_to_response({'form': form})
 
 
@@ -185,17 +185,11 @@ class SuperView(TemplateView,View):
                 entry['published']=entry.get('published').strftime("%Y-%m-%d")
                 entry_list.append(entry)
                 
-            
             perday_count=[]
             pub_date=[]
             for new_entry in entries:
                 pub_date.append(new_entry["published"])
-                perday_count.append(new_entry["count"])
-            
-            print perday_count
-            print pub_date  
-
-            
+                perday_count.append(new_entry["count"])  
             return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
         return HttpResponseRedirect(reverse('audit'))
 
