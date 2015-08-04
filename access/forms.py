@@ -61,6 +61,7 @@ class SignUpForm(forms.Form):
         return email
 
     def clean(self):
+
         if "password" in self.cleaned_data and "password_confirm" in self.cleaned_data:
             if self.cleaned_data["password"] != self.cleaned_data[
                 "password_confirm"]:
@@ -70,11 +71,6 @@ class SignUpForm(forms.Form):
 
 class UserEditForm(forms.Form):
     '''user details are changed here'''
-    email = forms.EmailField(
-        widget=forms.TextInput(attrs={'placeholder': 'Email',
-                                      'class': 'form-control',
-                                      'id': 'email'}),
-        required=True)
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': '',
@@ -86,6 +82,7 @@ class UserEditForm(forms.Form):
                                                               'id': 'email'}),
                                 required=True)
     def clean_email(self):
+
         email = self.cleaned_data["email"]
         user = UserInstanceResource()._filter(email=email)
         if user:

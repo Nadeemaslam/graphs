@@ -32,9 +32,9 @@ class LoginView(FormView):
          '''
         if request.user.is_authenticated():
             if  request.user.userprofile.user_type=="S":
-                return  HttpResponseRedirect('/access/super')
+                return  HttpResponseRedirect(reverse('super_home'))
             else:
-                return  HttpResponseRedirect('/graphs/')
+                return HttpResponseRedirect(reverse('audit'))
         # if request.user.is_authenticated():
         #     return HttpResponseRedirect('/graphs/')
 
@@ -67,13 +67,11 @@ class LoginView(FormView):
                     if next:
                         return HttpResponseRedirect(next)
                     if request.user.userprofile.user_type=="S":
-                        return  HttpResponseRedirect('/access/super')
+                        return  HttpResponseRedirect(reverse('super_home'))
                     if request.user.userprofile.user_type=="A":
-                        return  HttpResponseRedirect('/graphs')
-
-
-                    # else:
-                    #     return  HttpResponseRedirect('/graphs/')
+                        return HttpResponseRedirect(reverse('audit'))
+                    else:
+                        return HttpResponseRedirect(reverse('audit'))
                     
                 else:
                   # Return a 'disabled account' error message
@@ -156,10 +154,9 @@ class UserEditView(FormView):
         data = request.POST
         form = self.form_class(data)
         if form.is_valid():
-            email = form.cleaned_data['email']
             first_name=request.POST['first_name']
             last_name=request.POST['last_name']
-            UserInstanceResource()._update(email=email,id=id,first_name=first_name,last_name=last_name)
+            UserInstanceResource()._update(id=id,first_name=first_name,last_name=last_name)
             return HttpResponseRedirect('/graphs/')
         return self.render_to_response({'form': form})
 

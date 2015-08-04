@@ -7,7 +7,11 @@
                             <span class="sr-only">Toggle navigation</span>
                         </a>
                         <a class="navbar-brand logo" href="#">
+                            {%if request.user.userprofile.user_type == 'A'%}
                             <h3>Admin DashBoard</h3>
+                            {% else %}
+                            <h3>Customer View</h3>
+                            {% endif %}
                         </a>
                     </div>
             <div class="collapse navbar-collapse">
@@ -63,8 +67,6 @@
                           <li><a data-toggle="pill" href="#menu9">Gauges</a></li>
                           <li><a data-toggle="pill" href="#menu10">3d</a></li>
                           <li><a data-toggle="pill" href="#menu11">combo</a></li>
-                          <li><a data-toggle="pill" href="#menu12">Pyramid</a></li>
-                          <li><a data-toggle="pill" href="#menu13">Tree</a></li>
                            {% endif%}
 
                           
@@ -160,21 +162,6 @@
                   </div>
 
 
-                  <div id="menu12" class="tab-pane fade">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6"  id="container13" style="padding:10px 10px; margin: 0 auto"></div> 
-                    <div class="col-md-3"></div>
-                  </div>
-
-                  <div id="menu13" class="tab-pane fade">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6"  id="container14" style="padding:10px 10px; margin: 0 auto"></div> 
-                    <div class="col-md-3"></div>
-                  </div>
-
-
-
-                  
 
                 </div>
                 
@@ -829,102 +816,6 @@ $(function () {
         }]
     });
 });
-
-//pyramid chart
-$(function () {
-
-    $('#container13').highcharts({
-        chart: {
-            type: 'pyramid',
-            marginRight: 100
-        },
-        title: {
-            text: 'Sales pyramid',
-            x: -50
-        },
-        plotOptions: {
-            series: {
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b> ({point.y:,.0f})',
-                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
-                    softConnector: true
-                }
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        series: [{
-            name: 'Unique users',
-            data: [{{dic.jul}},{{dic.aug}},{{dic.sep}}
-            ]
-        }]
-    });
-});
-
-//tree
-$(function () {
-    $('#container14').highcharts({
-        colorAxis: {
-            minColor: '#FFFFFF',
-            maxColor: Highcharts.getOptions().colors[0]
-        },
-        series: [{
-            type: "treemap",
-           layoutAlgorithm: 'stripes',
-            alternateStartingDirection: true,
-            levels: [{
-                level: 1,
-                layoutAlgorithm: 'sliceAndDice',
-                dataLabels: {
-                    enabled: true,
-                    align: 'left',
-                    verticalAlign: 'top',
-                    style: {
-                        fontSize: '15px',
-                        fontWeight: 'bold'
-                    }
-                }
-            }],
-            data: [{{dic.Aug}},{{dic.july}},{{dic.sep}},
-             {
-                name: 'B',
-                value: 6,
-                colorValue: 2
-            }, {
-                name: 'C',
-                value: 4,
-                colorValue: 3
-            }, {
-                name: 'D',
-                value: 3,
-                colorValue: 4
-            }, {
-                name: 'E',
-                value: 2,
-                colorValue: 5
-            }, {
-                name: 'F',
-                value: 2,
-                colorValue: 6
-            }, {
-                name: 'G',
-                value: 1,
-                colorValue: 7
-            }]
-        }],
-        title: {
-            text: 'Highcharts Treemap'
-        }
-    });
-});
-
-
-
-
-
-
 
 
 

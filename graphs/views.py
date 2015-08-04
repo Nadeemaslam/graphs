@@ -33,19 +33,12 @@ class Audit(View):
 			temp.append(str(obj.month))
 			temp.append(int(obj.sale))
 			data_1.append(temp)
-
-
 		dic=dict(data_1)
-
 
 		day_data =SaleData.objects.all()
 		per_day=[]
 		for i in day_data:
 			per_day.append(int(i.sale))
-
-		
-
-
 
 		return render(request,'graphs/chart_form.html',{'result_sale':result_sale,'result_month':result_month,'dic':dic,'per_day':per_day})
 

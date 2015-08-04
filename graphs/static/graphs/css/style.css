@@ -218,3 +218,22 @@ padding-top: 10px;
 .user-dropdown{
     padding-right:20px;
 }
+
+.edit-form{
+    padding-bottom:110px;
+    padding-top:70px;
+}
+
+
+.edit-form h3{
+
+    text-align: center;
+    padding-bottom: 20px;
+    color: #fff;
+    font-size: 24px;
+}
+
+.edit-submit-button{
+
+    margin-top:20px;
+}
