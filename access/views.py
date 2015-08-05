@@ -193,10 +193,13 @@ class SuperView(TemplateView,View):
 
 
 
-'''user-delete view'''
+
 
 class UserDeleteView(TemplateView,View):
-    '''User is deleted by super admin'''
+    '''user delete view
+       User is deleted by super admin
+       '''
+
     template_name = 'access/user_delete.html'
 
     def delete_user(self,user_id):
@@ -205,22 +208,14 @@ class UserDeleteView(TemplateView,View):
 
     @access_required_super()
     def get(self, request, *args, **kwargs):
-        '''
-        :param request:user id
-        :param args:
-        :param kwargs: users id
-        :return: delete option pops up
-        '''
+        
         context = {}
         context['user_id']  = kwargs.get('user_id','')
         return self.render_to_response(context)
 
     def post(self,request, *args, **kwargs):
         '''
-        :param request:
-        :param args:
-        :param kwargs:user_id
-        :return:user is deleted and is back returned to home page
+        :user is deleted and is back returned to dashboard page
 
         '''
     
@@ -231,8 +226,9 @@ class UserDeleteView(TemplateView,View):
                          extra_tags='alert-success')
         return HttpResponseRedirect("/access/super")
 
-'''charts view'''
+
 class ChartView(TemplateView,View):
+    '''charts view'''
     
     template_name = 'access/charts.html'
 
@@ -241,15 +237,15 @@ class ChartView(TemplateView,View):
         entries=UserProfile.objects.extra({'published':"date(created_on)"}).values('published').annotate(count=Count('id'))
         
         entry_list=[]
-        for i in entries:
-            i['published']=i.get('published').strftime("%Y-%m-%d")
-            entry_list.append(i)
+        for entry in entries:
+            entry['published']=entry.get('published').strftime("%Y-%m-%d")
+            entry_list.append(entry)
 
         perday_count=[]
         pub_date=[]
-        for i in entries:
-            pub_date.append(i["published"])
-            perday_count.append(i["count"])  
+        for new_entry in entries:
+            pub_date.append(new_entry["published"])
+            perday_count.append(new_entry["count"])  
 
         
         return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
@@ -259,15 +255,15 @@ class ChartView(TemplateView,View):
         entries=UserProfile.objects.extra({'published':"date(created_on)"}).values('published').annotate(count=Count('id'))
         monthly=UserProfile.objects.extra({'published':"month(created_on)"}).values('published').annotate(count=Count('id'))
         entry_list=[]
-        for i in entries:
-            i['published']=i.get('published').strftime("%Y-%m-%d")
-            entry_list.append(i)
+        for entry in entries:
+            entry['published']=entry.get('published').strftime("%Y-%m-%d")
+            entry_list.append(entry)
 
         perday_count=[]
         pub_date=[]
-        for i in entries:
-            pub_date.append(i["published"])
-            perday_count.append(i["count"])  
+        for new_entry in entries:
+            pub_date.append(new_entry["published"])
+            perday_count.append(new_entry["count"])  
         return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
    
         
