@@ -50,8 +50,8 @@
                 <div class="container">
 
                         <ul class="nav nav-pills chart-list">
+                            {%if request.user.userprofile.user_type == 'A'%}
                           <li class="active"><a data-toggle="pill" href="#home">spline</a></li>
-                          {%if request.user.userprofile.user_type == 'A'%}
                           <li><a data-toggle="pill" href="#menu1">Column</a></li>
                           <li><a data-toggle="pill" href="#menu2">Area</a></li>
                           <li><a data-toggle="pill" href="#menu7">scatter</a></li>

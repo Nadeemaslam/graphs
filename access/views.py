@@ -33,6 +33,8 @@ class LoginView(FormView):
         if request.user.is_authenticated():
             if  request.user.userprofile.user_type=="S":
                 return  HttpResponseRedirect(reverse('super_home'))
+            if request.user.userprofile.user_type=="A":
+                return HttpResponseRedirect(reverse('audit'))
             else:
                 return HttpResponseRedirect(reverse('audit'))
         # if request.user.is_authenticated():
