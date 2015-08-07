@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'mycharts.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'chartdb',
+        'NAME': 'chart',
         'USER':'root',
         'PASSWORD':'root',
         'HOST':'',
