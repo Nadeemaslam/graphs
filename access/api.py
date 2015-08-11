@@ -7,10 +7,10 @@ from models import UserProfile
 
 
 class UserProfileListResource:
-    """ Operations related to SuperAdminProfile """
 
     def _post(self, user_obj, user_type=None):
         """ Create a  userprofile """
+
         user_profile = UserProfile()
         if user_type:
             user_profile.user_type = user_type
@@ -20,16 +20,18 @@ class UserProfileListResource:
 
 
 class UserInstanceResource:
+
     def _get(self, id=None, email=None):
+
         if email:
             return User.objects.get(username=email)
         return User.objects.get(pk=id)
 
-    def _post(self, email, first_name=None, last_name=None, password=None,
+    def _post(self, email=None, first_name=None, last_name=None, password=None,
               user_type=None):
+
         user = User(username=email,email=email)
-        # user.email = email
-        # user.username = email
+
         if first_name:
             user.first_name = first_name
         if last_name:
@@ -44,7 +46,7 @@ class UserInstanceResource:
 
     def _update(self, id, password=None, first_name=None, last_name=None,
                 email=None):
-        user = User.objects.get(pk=id)
+        user = User.objects.get(id=id)
         if password:
             user.set_password(password)
         if first_name:
@@ -59,7 +61,22 @@ class UserInstanceResource:
 
     def _filter(self,email=None,user_type=None):
         # filter by
-        return User.objects.filter(username=email)
+        if email:
+            return User.objects.filter(username=email)
+        return User.objects.all() 
+
+    def _change_access(self,id,user_type=None):
+        user_profile = UserProfile.objects.get(id=id)
+        # user = User.objects.get(id=id)
+        
+        if user_type:
+            user_profile.user_type = user_type
+        user_profile.save()
+
+
+
+
+        
 
 
 

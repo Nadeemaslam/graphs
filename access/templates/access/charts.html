@@ -1,0 +1,377 @@
+{% extends "access/base.html"%}
+{%block content%}
+<body>
+
+
+
+<div id="wrapper">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Super Admin Panel</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul id="active" class="nav navbar-nav side-nav">
+                    <li class="selected"><a href="{%url 'super_home'%}"><i class="fa fa-bullseye"></i> Dashboard</a></li>
+                    
+                    
+                </ul>
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>{{ request.user.username}}<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user_edit'  %}"><i class="fa fa-user"></i> Edit Profile</a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> Log Out</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+         <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Dashboard <small>Statistics and more</small></h1>
+                    <div class="alert alert-dismissable alert-warning">
+                        Welcome to the Super admin dashboard!  
+                        
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i>Spline
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="spline" class="col-md-12" style="padding:10px 10px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-rss"></i>Bar Chart</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <div id="bar" class="col-md-12" style="padding:10px 10px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Combination Chart </h3>
+                        </div>
+                        <div class="panel-body">
+                           
+                            		<div id="combination" class="col-md-12" style="padding:10px 10px; margin: 0 auto"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i>Polar Chart</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="polar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-magnet"></i> Column Chart</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="column"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-magnet"></i> Area Chart</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="area"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(function () { 
+    $('#spline').highcharts({
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Users registered  per day'
+        },
+        xAxis: {
+            categories:{{pub_date|safe}}
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Users '
+            }
+        },
+        series: [{
+            name: "Users",
+            data: {{perday_count}}
+        }
+        ]
+    });
+});
+
+
+$(function () { 
+    $('#bar').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Users registered  per day'
+        },
+        xAxis: {
+            categories:{{pub_date|safe}}
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Users '
+            }
+        },
+        series: [{
+            name: "Users",
+            data: {{perday_count}}
+        }
+        ]
+    });
+});
+
+
+$(function () { 
+    $('#area').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Users registered  per day'
+        },
+        xAxis: {
+            categories:{{pub_date|safe}}
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Users '
+            }
+        },
+        series: [{
+            name: "Users",
+            data: {{perday_count}}
+        }
+        ]
+    });
+});
+
+
+$(function () { 
+    $('#column').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Users registered  per day'
+        },
+        xAxis: {
+            categories:{{pub_date|safe}}
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Users '
+            }
+        },
+        series: [{
+            name: "Users",
+            data: {{perday_count}}
+        }
+        ]
+    });
+});
+
+
+$(function () {
+    $('#pie-chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Users registered, from July 2015 to Aug, 2015'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: "Users",
+            colorByPoint: true,
+            data: {{entry_list|safe}}
+        }]
+    });
+});
+
+
+
+$(function () {
+
+    window.chart = new Highcharts.Chart({
+                
+        chart: {
+            renderTo: 'polar',
+            polar: true,
+            type: 'area'
+        },
+        
+        title: {
+            text: 'User Details',
+            x: -80
+        },
+        
+        pane: {
+            size: '80%'
+        },
+        
+        xAxis: {
+            categories: {{pub_date|safe}},
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+            
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+        
+        tooltip: {
+            shared: true,
+            valuePrefix: '$'
+        },
+        
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 100,
+            layout: 'vertical'
+        },
+        
+        series: [{
+            name: 'User perday_count',
+            data: {{perday_count}},
+            pointPlacement: 'on'
+        }]
+    
+    });
+});
+
+
+
+
+$(function () {
+    $('#combination').highcharts({
+        title: {
+            text: 'Combination chart'
+        },
+        xAxis: {
+            categories: {{pub_date|safe}}
+        },
+        labels: {
+            items: [{
+                html: 'Total fruit consumption',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{
+            type: 'column',
+            name: 'User',
+            data: {{perday_count}}
+        },{
+            type: 'spline',
+            name: 'user',
+            data: {{perday_count}},
+            marker: {
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[3],
+                fillColor: 'black'
+            }
+        }, {
+            type: 'pie',
+            name: 'user',
+            data: {{perday_count}},
+            center: [70, 50],
+            size: 80,
+            showInLegend: false,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+});
+
+</script>
+</body>
+{% endblock %}

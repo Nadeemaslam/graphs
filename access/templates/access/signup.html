@@ -2,10 +2,17 @@
 
 {% block content %}
 {{form.errors}}
+
+<div class="signup-header">
+    <span><h1>Sign Up</h1></span>
+    <p>Welcome to Sign Up Page!</p>
+</div>
  <div class="row">
+ <div class="col-md-3"></div>
  <div class="col-md-6">
      <br>
-    <form class="form-horizontal" role="form"  method="post" action="/access/signup/">
+     
+    <form class="form-horizontal form" role="form"  method="post" action="/access/signup/">
     <!-- Text input-->
     {% csrf_token %}
 
@@ -14,6 +21,7 @@
     <label class="col-sm-2 control-label" for="textinput">Firstname</label>
     <div class="col-sm-10">
         {{ form.first_name}}
+        {{form.first_name.errors}}
     </div>
     </div>
 
@@ -22,6 +30,7 @@
     <label class="col-sm-2 control-label" for="textinput">Lastname</label>
     <div class="col-sm-10">
         {{ form.last_name}}
+        {{form.last_name.errors}}
     </div>
     </div>
     
@@ -29,7 +38,7 @@
     <label class="col-sm-2 control-label" for="textinput">Email</label>
     <div class="col-sm-10">
         {{ form.email}}
-        {{form.errors}}
+        {{form.email.errors}}
     </div>
     </div>
 
@@ -46,12 +55,7 @@
     </div>
     </div>
 
-    <div class="form-group">
-    <label class="col-sm-2 control-label" for="textinput">User type</label>
-    <div class="col-sm-10">
-        {{form.user_type}}
-    </div>
-    </div>
+
 
 
     <div class="form-group">
@@ -65,6 +69,17 @@
     </div>
     </form>
 </div>
+<div class="col-md-3"></div>
+</div>
+
+<div id="footer">
+            <div class="container">
+                <div class="">                              
+                    <div class="footer-copy">
+                        © 2015 Nadeem Aslam. All rights reserved.                
+                     </div>
+                </div>
+            </div>
 </div>
 {% endblock %}        
 

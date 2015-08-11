@@ -22,14 +22,14 @@ class LoginForm(forms.Form):
 
 
 class SignUpForm(forms.Form):
-    '''file are uploaded using this form'''
+    '''new users are registered here'''
 
     first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': '',
+        widget=forms.TextInput(attrs={'placeholder': 'first name',
                                       'class': 'form-control',
                                       'id': 'email'}),
         required=True)
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': '',
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'last name',
                                                               'class': 'form-control',
                                                               'id': 'email'}),
                                 required=True)
@@ -49,7 +49,7 @@ class SignUpForm(forms.Form):
         widget=forms.PasswordInput(attrs={'placeholder': 'Re-type Password',
                                           'class': "form-control"}))
 
-    user_type = forms.ChoiceField(choices = USER_ROLE, required=True)
+    
 
 
     def clean_email(self):
@@ -61,6 +61,7 @@ class SignUpForm(forms.Form):
         return email
 
     def clean(self):
+
         if "password" in self.cleaned_data and "password_confirm" in self.cleaned_data:
             if self.cleaned_data["password"] != self.cleaned_data[
                 "password_confirm"]:
@@ -69,12 +70,7 @@ class SignUpForm(forms.Form):
         return self.cleaned_data
 
 class UserEditForm(forms.Form):
-    '''file are uploaded using this form'''
-    email = forms.EmailField(
-        widget=forms.TextInput(attrs={'placeholder': 'Email',
-                                      'class': 'form-control',
-                                      'id': 'email'}),
-        required=True)
+    '''user details are changed here'''
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': '',
@@ -86,10 +82,15 @@ class UserEditForm(forms.Form):
                                                               'id': 'email'}),
                                 required=True)
     def clean_email(self):
+
         email = self.cleaned_data["email"]
         user = UserInstanceResource()._filter(email=email)
         if user:
             raise forms.ValidationError(
                 ("A user is registered with this email address."))
         return email
+
+class UserTypeForm(forms.Form):
+
+  user_type = forms.ChoiceField(choices = USER_ROLE, required=True)
     
