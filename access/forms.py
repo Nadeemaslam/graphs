@@ -49,7 +49,7 @@ class SignUpForm(forms.Form):
         widget=forms.PasswordInput(attrs={'placeholder': 'Re-type Password',
                                           'class': "form-control"}))
 
-    user_type = forms.ChoiceField(choices = USER_ROLE, required=True)
+    
 
 
     def clean_email(self):
@@ -89,4 +89,8 @@ class UserEditForm(forms.Form):
             raise forms.ValidationError(
                 ("A user is registered with this email address."))
         return email
+
+class UserTypeForm(forms.Form):
+
+  user_type = forms.ChoiceField(choices = USER_ROLE, required=True)
     

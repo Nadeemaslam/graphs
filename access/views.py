@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, View, FormView
 from django.core.urlresolvers import reverse
 from forms import LoginForm
 from forms import SignUpForm
-from forms import UserEditForm
+from forms import UserEditForm,UserTypeForm
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
@@ -16,6 +16,7 @@ from django.contrib.auth.tokens import default_token_generator
 from access.models import UserProfile
 import datetime
 from django.db.models import Count
+from api import UserProfileListResource
 import json
 
 
@@ -114,7 +115,7 @@ class SignupView(FormView):
 
 
 
-'''Logout view'''
+
 class LogoutView(View):
     '''base class for logout'''
 
@@ -159,7 +160,15 @@ class UserEditView(FormView):
             first_name=request.POST['first_name']
             last_name=request.POST['last_name']
             UserInstanceResource()._update(id=id,first_name=first_name,last_name=last_name)
-            return HttpResponseRedirect('/graphs/')
+            next = request.GET.get('next', None)
+            if next:
+                return HttpResponseRedirect(next)
+            if request.user.userprofile.user_type=="S":
+                return  HttpResponseRedirect(reverse('super_home'))
+            if request.user.userprofile.user_type=="A":
+                return HttpResponseRedirect(reverse('audit'))
+            else:
+                return HttpResponseRedirect(reverse('audit'))
         return self.render_to_response({'form': form})
 
 
@@ -205,7 +214,8 @@ class UserDeleteView(TemplateView,View):
     template_name = 'access/user_delete.html'
 
     def delete_user(self,user_id):
-        user =User.objects.get(pk=user_id)
+        user =UserProfile.objects.get(pk=user_id)
+
         user.delete()
 
     @access_required_super()
@@ -268,4 +278,32 @@ class ChartView(TemplateView,View):
             perday_count.append(new_entry["count"])  
         return self.render_to_response({'users': users,'perday_count':perday_count,'pub_date':json.dumps(pub_date),'entry_list':json.dumps(entry_list)})
    
+
+
+class UserTypeView(FormView):
+    form_class = UserTypeForm
+    template_name = 'access/user_type.html'
+    def get(self, request, *args, **kwargs):
+        form=self.form_class()
+        return self.render_to_response({'form': form})
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        id=kwargs.get('user_id')
+        form = self.form_class(data)
+        if form.is_valid():
+            print 'dfsdfsdfsdf'
+            user_type=request.POST['user_type']
+            print user_type
+            UserInstanceResource()._change_access(id=id,user_type=user_type)
+            return  HttpResponseRedirect(reverse('super_home'))
+            
+        return  HttpResponseRedirect(reverse('super_home'))
+
+
+    
+   
+
+
+        
+
         

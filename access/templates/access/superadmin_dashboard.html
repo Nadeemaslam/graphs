@@ -86,7 +86,7 @@
 									  <td>{{user.created_on}}</td>
 									  <td>{{ user.user.first_name}}</td>
 									  <td>{{ user.user_type}}</td>
-                                      <td><a href="{% url 'UserDeleteView' user.id %}">delete</td>
+                                      <td><a href="{% url 'UserTypeView' user.id %}">edit </a><a href="{% url 'UserDeleteView' user.id %}">delete</a></td>
 									</tr>
 									{% endfor %}
 									</table>
@@ -99,6 +99,8 @@
         </div>
 
 </div>
+
+
 
 
 

@@ -1,9 +1,11 @@
 from django.conf.urls import url,patterns 
 import views
+from django.core.urlresolvers import reverse
+
 from access.views import LoginView
 from access.views import SignupView
 from access.views import LogoutView
-from access.views import UserEditView,SuperView,UserDeleteView,ChartView
+from access.views import UserEditView,SuperView,UserDeleteView,ChartView,UserTypeView
 from django.contrib.auth.decorators import login_required
 
 
@@ -15,6 +17,7 @@ urlpatterns = patterns('',
         name='super_home'),
 	url(r'^delete/(?P<user_id>[\-\d\w]+)/$',UserDeleteView.as_view(),
         name='UserDeleteView'),
+	url(r'^type/(?P<user_id>[\-\d\w]+)/$',UserTypeView.as_view(),name='UserTypeView'),
 	url(r'^charts/$',ChartView.as_view(),name='chart_view'),
 
 	url(r'logout/$', LogoutView.as_view(), name="account_logout"),
