@@ -1,10 +1,72 @@
 {% extends "access/base.html"%}
 {%block content%}
-<body><p>Are you sure you want to delete this User?</p>
 
-<form action="" method="post">{% csrf_token %}
+<nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                        </a>
+                       <!--  <a class="navbar-brand logo" href="#">
+                            {%if request.user.userprofile.user_type == 'A'%}
+                            <h3>Admin DashBoard</h3>
+                            {% else %}
+                            <h3>Customer View</h3>
+                            {% endif %}
+                        </a> -->
+                    </div>
+            <div class="collapse navbar-collapse">
+                <div id="menu-container">
+                    <div id="#" class="#">
+                                
+                    <ul class="nav navbar-nav pull-right">
+                    
+
+
+
+                    {% if user.is_authenticated %}
+                    <li><a href="#">Welcome |{{request.user.username}}  </a></li>
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class=""><a href="{% url 'account_login' %}"></a></li>
+                    <li class=""><a href="/access/signup/">Signup</a></li>
+                    {% endif %}
+                    
+                    
+                    </ul>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            
+                           
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+ <div class="col-md-3"></div>
+ <div class="row">
+ <div class="col-md-6">
+
+
+<form class="form form-horizontal" action="" method="post">{% csrf_token %}
+	<p>Are you sure you want to delete this User?</p>
 	<input class="" name="user_id" id="user_id" type="hidden" value="{{ user_id }}">
-    <input type="submit" value="YES" />
-    <a href="/access/super" class="btn">Cancel</a>
+    <!-- <input type="submit" value="YES" />
+    <a href="/access/super" class="btn">Cancel</a> -->
+    <div class="form-group user-type-button">
+    <div class="col-sm-offset-4 col-sm-8">
+        <div class="">   
+        <button type="submit" class="btn btn-primary">Yes</button>
+            <a href="javascript:window.history.back()"  class="btn btn-default">No</a>
+        </div>
+    </div>
+    </div>
 </form>
+
+</div>
+</div>
+ <div class="col-md-3"></div>
 {%endblock%}

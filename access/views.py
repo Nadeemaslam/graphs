@@ -286,7 +286,9 @@ class UserTypeView(FormView):
     def get(self, request, *args, **kwargs):
         form=self.form_class()
         return self.render_to_response({'form': form})
+
     def post(self, request, *args, **kwargs):
+        
         data = request.POST
         id=kwargs.get('user_id')
         form = self.form_class(data)
