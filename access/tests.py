@@ -11,13 +11,20 @@ from django.test.utils import setup_test_environment
 setup_test_environment()
 
 
-class TestData(unittest.TestCase):
+class TestData(TestCase):
 	'''base class for testing'''
 	
-	def setUp(self):
-		pass
+	# def setUp(self):
+	# 	client = Client()
+
+	def test_views(self):
+		'''test to check working of views'''
+
+		response = self.client.get("/access/login/")
+		self.assertEqual(response.status_code, 200)
 
 	def test_signup(self):
+		'''Unit test to check signup view'''
 
 
 		UserInstanceResource()._post(email='nadeem@gmail.com',password = '123',user_type='C',first_name='sahil',last_name='khan')
@@ -27,40 +34,34 @@ class TestData(unittest.TestCase):
 
 	def test_update(self):
 
-		UserInstanceResource()._post(email='nadeem@gmail.com',password = '123',user_type='C',first_name='sahil',last_name='khan')
+		UserInstanceResource()._post(email='nadeem@gmail.com',password = '123',first_name='sahil',last_name='khan')
 		result=UserInstanceResource()._get(email='nadeem@gmail.com')
 		UserInstanceResource()._update(id=result.id,first_name='farhan',last_name='khan')
 		s=UserInstanceResource()._get(email='nadeem@gmail.com')
 		self.assertEqual(s.first_name,'farhan')
 
-	# def test_call_view_loads(self):
- #    	self.client.login(username='sa@sa.com', password='123')
- #    	response = self.client.get('/super_home')
- #    	self.assertEqual(response.status_code, 200)
- #    	self.assertTemplateUsed(response, 'superadmin_dashboard.html')
+
+
 
 	
- 	def tearDown(self):
- 		self.test_user.delete()
+ 	
  		
 	def test_login(self):
-	 	self.client = Client()
-	 	# self.first_name = 'agconti'
-	 	self.email = 'sa@sa.com'
-	 	self.password = '123'
-	 	# self.test_user = User.objects.create_user(self.email, self.password)
-	 	login = self.client.login(email=self.email, password=self.password)
-	 	self.assertEqual(login, False)
+		'''unit test to check login form'''
+		
+		c = Client()
+		UserInstanceResource()._post(email='nad@gmail.com',password = '123',user_type='C',first_name='sahil',last_name='khan')	 	
+		response=c.post('/access/login/', {'email':'nad@gmail.com','password' : '123'})
+	 	self.assertEqual(response.status_code, 302)  # Redirect on form success
+
+	 	response = self.client.post("/access/login/", {})
+	 	self.assertEqual(response.status_code, 200) # we get our page back with an error
 
 
-	# def setUp(self):
-	# 	self.factory = RequestFactory()
+	
 
-	# def test_list_view(self):
-	# 	request = self.factory.get(reverse('super_home'))
- #        # additional params can go after request
- #        response = LoginView.as_view()(request)
- #        self.assertEqual(response.status_code, 200)
+
+
 
 
 
