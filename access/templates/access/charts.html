@@ -51,11 +51,11 @@
                 <div class="col-md-8">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i>Spline
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i>Column
                             </h3>
                         </div>
                         <div class="panel-body">
-                            <div id="spline" class="col-md-12" style="padding:10px 10px; margin: 0 auto"></div>
+                            <div id="column" class="col-md-12" style="padding:10px 10px; margin: 0 auto"></div>
                         </div>
                     </div>
                 </div>
@@ -101,10 +101,10 @@
                 <div class="col-lg-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-magnet"></i> Column Chart</h3>
+                            <h3 class="panel-title"><i class="fa fa-magnet"></i> Spline Chart</h3>
                         </div>
                         <div class="panel-body">
-                            <div id="column"></div>
+                            <div id="spline"></div>
                         </div>
                     </div>
 
@@ -125,23 +125,14 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
 <script>
 $(function () { 
-    $('#spline').highcharts({
+    $('#column').highcharts({
         chart: {
-            type: 'spline'
+            type: 'column'
         },
         title: {
-            text: 'Users registered  per day'
+            text: 'Users registered  on a Particular day'
         },
         xAxis: {
             categories:{{pub_date|safe}}
@@ -166,7 +157,7 @@ $(function () {
             type: 'bar'
         },
         title: {
-            text: 'Users registered  per day'
+            text: 'Users registered  on a Particular day'
         },
         xAxis: {
             categories:{{pub_date|safe}}
@@ -191,7 +182,7 @@ $(function () {
             type: 'area'
         },
         title: {
-            text: 'Users registered  per day'
+            text: 'Users registered  a Particular day'
         },
         xAxis: {
             categories:{{pub_date|safe}}
@@ -211,12 +202,12 @@ $(function () {
 
 
 $(function () { 
-    $('#column').highcharts({
+    $('#spline').highcharts({
         chart: {
-            type: 'column'
+            type: 'spline'
         },
         title: {
-            text: 'Users registered  per day'
+            text: 'Users registered  a Particular day'
         },
         xAxis: {
             categories:{{pub_date|safe}}
@@ -337,10 +328,10 @@ $(function () {
         },
         labels: {
             items: [{
-                html: 'Total fruit consumption',
+                html: 'users registered',
                 style: {
                     left: '50px',
-                    top: '18px',
+                    top: '15px',
                     color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
                 }
             }]
