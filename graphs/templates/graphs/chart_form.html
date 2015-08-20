@@ -16,7 +16,7 @@
                     </div>
             <div class="collapse navbar-collapse">
                 <div id="menu-container">
-                    <div id="#" class="#">
+                    <div id="#" class="mini-header">
                                 
                     <ul class="nav navbar-nav pull-right">
                     
@@ -51,20 +51,16 @@
 
                         <ul class="nav nav-pills chart-list">
                             {%if request.user.userprofile.user_type == 'A'%}
-                          <li class="active"><a data-toggle="pill" href="#home">spline</a></li>
+                          <li ><a data-toggle="pill" href="#home">spline</a></li>
                           <li><a data-toggle="pill" href="#menu1">Column</a></li>
                           <li><a data-toggle="pill" href="#menu2">Area</a></li>
-                          <li><a data-toggle="pill" href="#menu7">scatter</a></li>
                           <li><a data-toggle="pill" href="#menu3">Bar</a></li>
                           <li><a data-toggle="pill" href="#menu4">Line</a></li>
-                          <li><a data-toggle="pill" href="#menu5">Pie</a></li>
+                          
                           {% endif %}
                          {%if request.user.userprofile.user_type == 'C'%}
-
+                          <li><a data-toggle="pill" href="#menu5">Pie</a></li>
                           <li><a data-toggle="pill" href="#menu6">Polar</a></li>
-                          <li><a data-toggle="pill" href="#menu7">scatter</a></li>
-                          <li><a data-toggle="pill" href="#menu9">Gauges</a></li>
-                          <li><a data-toggle="pill" href="#menu10">3d</a></li>
                           <li><a data-toggle="pill" href="#menu11">combo</a></li>
                            {% endif%}
 
@@ -127,26 +123,7 @@
                     <div class="col-md-3"></div>
                   </div>
 
-                   <div id="menu7" class="tab-pane fade">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6"  id="container8" style="padding:10px 10px; margin: 0 auto"></div> 
-                    <div class="col-md-3"></div>
-                  </div>
-
-
-                  <div id="menu9" class="tab-pane fade">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6"  id="container10" style="padding:10px 10px; margin: 0 auto"></div> 
-                    <div class="col-md-3"></div>
-                  </div>
-
-
-                  <div id="menu10" class="tab-pane fade">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6"  id="container11" style="padding:10px 10px; margin: 0 auto"></div> 
-                    <div class="col-md-3"></div>
-                  </div>
-
+                   
                    <div id="menu11" class="tab-pane fade">
                     <div class="col-md-3"></div>
                     <div class="col-md-6"  id="container12" style="padding:10px 10px; margin: 0 auto"></div> 
@@ -399,75 +376,7 @@ $(function () {
     });
 });
 
-// scattered chart
-$(function () {
-    $('#container8').highcharts({
-        chart: {
-            type: 'scatter',
-            zoomType: 'xy'
-        },
-        title: {
-            text: 'Sale percentage achieved per month'
-        },
-        subtitle: {
-            text: 'Source:Applied'
-        },
-        xAxis: {
-            title: {
-                enabled: true,
-                text: 'Sale'
-            },
-            startOnTick: true,
-            endOnTick: true,
-            showLastLabel: true
-        },
-        yAxis: {
-            title: {
-                text: 'month'
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 100,
-            y: 70,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
-            borderWidth: 1
-        },
-        plotOptions: {
-            scatter: {
-                marker: {
-                    radius: 5,
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineColor: 'rgb(100,100,100)'
-                        }
-                    }
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} month, {point.y} Rs'
-                }
-            }
-        },
-        series: [{
-            name: 'sales',
-            color: 'rgba(223, 83, 83, .5)',
-            data: {{result_sale}}
 
-        }]
-    });
-});
 
 
 ///gauges
@@ -586,29 +495,7 @@ $(function () {
             }
         });
 });
-//3d
-$(function () {
-    $('#container11').highcharts({
-        chart: {
-            type: 'column',
-            margin: 75,
-            options3d: {
-                enabled: true,
-                alpha: 15,
-                beta: 15,
-                depth: 50
-            }
-        },
-        plotOptions: {
-            column: {
-                depth: 25
-            }
-        },
-        series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        }]
-    });
-});
+
 
 //combination chart
 

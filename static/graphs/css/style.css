@@ -44,11 +44,6 @@ body{
 	padding:0 15px;
 }
 
-.mini-header {
-
-    padding-top: 5px;
-}
-
 @media (max-width:300px) {
 	body{
 		font-size:10px;
@@ -144,14 +139,12 @@ padding-top: 10px;
 
        float:right; 
     }
-}
 
 @media screen and (max-width: 768px) {
     .navbar-nav .open .dropdown-menu{
 
         margin-top: 10px;
-    } 
-}
+    }
 
 .side-nav li a {
     width: 225px;

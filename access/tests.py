@@ -47,15 +47,14 @@ class TestData(TestCase):
  	
  		
 	def test_login(self):
-		'''unit test to check login form'''
-		
+		'''unit test to check login form '''
+
 		c = Client()
 		UserInstanceResource()._post(email='nad@gmail.com',password = '123',user_type='C',first_name='sahil',last_name='khan')	 	
 		response=c.post('/access/login/', {'email':'nad@gmail.com','password' : '123'})
 	 	self.assertEqual(response.status_code, 302)  # Redirect on form success
 
-	 	response = self.client.post("/access/login/", {})
-	 	self.assertEqual(response.status_code, 200) # we get our page back with an error
+	
 
 
 	

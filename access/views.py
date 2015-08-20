@@ -38,8 +38,7 @@ class LoginView(FormView):
                 return HttpResponseRedirect(reverse('audit'))
             else:
                 return HttpResponseRedirect(reverse('audit'))
-        # if request.user.is_authenticated():
-        #     return HttpResponseRedirect('/graphs/')
+       
 
         context = {'form':self.form_class()}
         return self.render_to_response(context)
@@ -87,7 +86,7 @@ class LoginView(FormView):
             context['form']= form
             return self.render_to_response(context)
 
-'''Signup view'''
+
 class SignupView(FormView):
     ''' Class View for signup page'''
 
